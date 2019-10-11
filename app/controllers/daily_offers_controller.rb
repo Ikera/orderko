@@ -13,11 +13,11 @@ class DailyOffersController < ApplicationController
 
     respond_to do |format|
       if @daily_offer.save
-        format.html { redirect_to @daily_offer, notice: 'Thanks Gorane, that sounds delicious.' }
+        format.html { redirect_to @daily_offer, notice: 'Thanks Goran, that sounds delicious.' }
         format.js
         format.json { render json: @daily_offer, status: :created, location: @daily_offer }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to root_path, alert: "#{@daily_offer.errors.full_messages.join(',')}" }
         format.json { render json: @daily_offer.errors, status: :unprocessable_entity }
       end
     end

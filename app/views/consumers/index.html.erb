@@ -1,13 +1,49 @@
-<div class="container">
-	<h4>Happy kitchen consumers</h4>
-	<p>Who wants to eat?</p>
-	<ul id="consumers">
-		<%= render @consumers %>
-	</ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <h4>Happy kitchen consumers</h4>
+      <p>Who wants to eat?</p>
+      <ul id="consumers">
+        <%= render @consumers %>
+      </ul>
 
-	<%= form_with(model: @consumer) do |f| %>
-	  <%= f.label :name %><br>
-	  <%= f.text_field :name, required: true %>
-	  <%= f.submit class: "btn btn-primary btn-sm" %>
-	<% end %>
+      <%= form_with(model: @consumer) do |f| %>
+        <%= f.label :name %><br>
+        <%= f.text_field :name, required: true %>
+        <%= f.submit class: "btn btn-primary btn-sm" %>
+      <% end %>
+    </div>
+    <div class="col-9">
+      <h4>Weekly bills</h4>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col"">Monday</th>
+            <th scope="col"">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-info">
+            <td>Shipping per person</td>
+            <td><%= DailyOffer.for_day(current_monday)&.first&.shipping_price_per_person %></td>
+            <td><%= DailyOffer.for_day(current_monday + 1.day)&.first&.shipping_price_per_person %></td>
+            <td><%= DailyOffer.for_day(current_monday + 2.days)&.first&.shipping_price_per_person %></td>
+            <td><%= DailyOffer.for_day(current_monday + 3.days)&.first&.shipping_price_per_person %></td>
+          </tr>
+          <% @consumers.each do |consumer| %>
+            <tr>
+              <td><%= consumer.name %></td>
+              <td><%= consumer.daily_bill(current_monday) %></td>
+              <td><%= consumer.daily_bill(current_monday + 1.day) %></td>
+              <td><%= consumer.daily_bill(current_monday + 2.days) %></td>
+              <td><%= consumer.daily_bill(current_monday + 3.days) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

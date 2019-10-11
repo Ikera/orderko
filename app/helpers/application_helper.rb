@@ -13,7 +13,15 @@ module ApplicationHelper
     nil
   end
 
+  def week_day(day)
+    Date::DAYNAMES[day.cwday - 7]
+  end
+
   def formatted_date(date)
     date.strftime("%d.%m.%Y.")
+  end
+
+  def current_monday
+    Date.today.beginning_of_week
   end
 end

@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
         format.js
         format.json { render json: @order, status: :created, location: @order }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to daily_offer_path(@order.daily_offer), alert: "#{@order.errors.full_messages.join(',')}" }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end

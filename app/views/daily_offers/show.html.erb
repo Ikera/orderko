@@ -2,12 +2,12 @@
   <% if @daily_offer.closed? %>
     <p class="text-danger">Daily offer is closed! For any changes, please contact Goran directly.</p>
   <% end %>
-  <h4>Daily offer for <%= Date::DAYNAMES[@daily_offer.day.cwday] %> (<%= formatted_date(@daily_offer.day) %>)</h4>
+  <h4>Daily offer for <%= week_day(@daily_offer.day) %> (<%= formatted_date(@daily_offer.day) %>)</h4>
   <p><b>Specialty of the house:</b> <%=@daily_offer.name  %></p>
   <p><b>Price:</b> <%=@daily_offer.price %> RSD</p>
   <p>
-    <b>Shipping:</b> <%=@daily_offer.shipping %> RSD<br>
-    *<em>shared between all daily consumers</em>
+    <b>Shipping:</b> <%=@daily_offer.shipping %> RSD <em class="text-info small">*shared between all daily consumers</em>
+
   </p>
 
   <% if !@daily_offer.closed? %>
@@ -23,7 +23,7 @@
 
   <h4>Orders</h4>
   <p>Shipping price per person: <i class="text-info"><%= @daily_offer.shipping_price_per_person %></i></p>
-  <table class="table">
+  <table class="table table-sm">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -44,7 +44,7 @@
           <td><%= order.consumer.name %></td>
           <td class="text-center"><%= order.number_of_meals %></td>
           <td><%= order.total_meal_price %></td>
-          <td class="<%= order.shipping_paid ? 'text-success' : 'text-danger' %>"><%= order.meal_paid %></td>
+          <td class="<%= order.meal_paid ? 'text-success' : 'text-danger' %>"><%= order.meal_paid %></td>
           <td class="<%= order.shipping_paid ? 'text-success' : 'text-danger' %>"><%= order.shipping_paid %></td>
           <% if !@daily_offer.closed? %>
             <td class="text-danger">

@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
   <h4>Hello happy people</h4>
-  <p>Gorane, please create a daily offer :)</p>
+  <p>Goran, please create a daily offer :)</p>
 
   <%= form_with(model: @daily_offer, local: true) do |f| %>
     <%= f.label :name, "Daily specialty" %><br>
@@ -15,6 +15,6 @@
   <% end %>
   <br>
   <% if @last_daily_offer.present? %>
-    AxiomQ-ovci please take a look into <%= link_to "daily offer for " + "#{Date::DAYNAMES[@last_daily_offer.day.cwday]} (#{formatted_date(@last_daily_offer.day)})" + " by Happy Kitchen", daily_offer_path(@last_daily_offer.id) %>.
+    AxiomQ-ovci please take a look into <%= link_to "daily offer for " + "#{week_day(@last_daily_offer.day)} (#{formatted_date(@last_daily_offer.day)})" + " by Happy Kitchen", daily_offer_path(@last_daily_offer.id) %>.
   <% end %>
 </div>
