@@ -1,0 +1,13 @@
+<div class="container">
+	<h4>Happy kitchen consumers</h4>
+	<p>Who wants to eat?</p>
+	<ul id="consumers">
+		<%= render @consumers %>
+	</ul>
+
+	<%= form_with(model: @consumer) do |f| %>
+	  <%= f.label :name %><br>
+	  <%= f.text_field :name, required: true %>
+	  <%= f.submit class: "btn btn-primary btn-sm" %>
+	<% end %>
+</div>

@@ -1,4 +1,16 @@
 class WelcomeController < ApplicationController
-	def index
-	end
+  def index
+    @daily_offer = DailyOffer.new(default_daily_offer_params)
+    @last_daily_offer = DailyOffer.last
+  end
+
+  private
+
+  def default_daily_offer_params
+    {
+      day: Date.today.next_day,
+      price: DailyOffer::DEFAULT_MEAL_PRICE,
+      shipping: DailyOffer::DEFAULT_SHIPPING_PRICE
+    }
+  end
 end
