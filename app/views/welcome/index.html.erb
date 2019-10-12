@@ -1,20 +1,17 @@
-<div class="container-fluid">
-  <h4>Hello happy people</h4>
-  <p>Goran, please create a daily offer :)</p>
+<h4>Hello happy people</h4>
+<% if @last_daily_offer.present? %>
+  <p>AxiomQ-ers, please take a look into <%= link_to "daily offer by Happy Kitchen (for #{week_day(@last_daily_offer.day)} #{formatted_date(@last_daily_offer.day)}).", daily_offer_path(@last_daily_offer.id) %></p>
+<% end %>
+<p>Goran, please create a daily offer :)</p>
 
-  <%= form_with(model: @daily_offer, local: true) do |f| %>
-    <%= f.label :name, "Daily specialty" %><br>
-    <%= f.text_area :name, required: true, rows: 5, cols: 50 %><br>
-    <%= f.label :day, "For date" %><br>
-    <%= f.date_field :day, required: true %><br>
-    <%= f.label :price %><br>
-    <%= f.number_field :price, step: 1, required: true %><br>
-    <%= f.label :shipping %><br>
-    <%= f.number_field :shipping, step: 1, required: true %><br><br>
-    <%= f.submit class: "btn btn-primary btn-sm" %>
-  <% end %>
-  <br>
-  <% if @last_daily_offer.present? %>
-    AxiomQ-ovci please take a look into <%= link_to "daily offer for " + "#{week_day(@last_daily_offer.day)} (#{formatted_date(@last_daily_offer.day)})" + " by Happy Kitchen", daily_offer_path(@last_daily_offer.id) %>.
-  <% end %>
-</div>
+<%= form_with(model: @daily_offer, local: true, class: "form") do |f| %>
+  <%= f.label :name, "Daily specialty" %><br>
+  <%= f.text_area :name, required: true, rows: 5, cols: 50, class: "form-control col-4" %><br>
+  <%= f.label :day, "For date" %><br>
+  <%= f.date_field :day, required: true, class: "form-control col-2" %><br>
+  <%= f.label :price %><br>
+  <%= f.number_field :price, step: 1, required: true, class: "form-control col-2" %><br>
+  <%= f.label :shipping %><br>
+  <%= f.number_field :shipping, step: 1, required: true, class: "form-control col-2" %><br><br>
+  <%= f.submit class: "btn btn-primary btn-sm" %>
+<% end %>

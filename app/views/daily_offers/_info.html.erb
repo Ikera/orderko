@@ -1,0 +1,10 @@
+<% if daily_offer.closed? %>
+  <p class="text-danger">Daily offer is closed! For any changes, please contact Goran directly.</p>
+<% end %>
+<h4>Bon appetit</h4>
+<p>
+	<b>Daily offer for:</b> <%= week_day(daily_offer.day) %> (<%= formatted_date(daily_offer.day) %>)<br>
+	<b>Specialty of the house:</b> <%=daily_offer.name  %><br>
+	<b>Price:</b> <%=daily_offer.price %> RSD<br>
+	<b>Shipping:</b> <%=daily_offer.shipping %> RSD <em class="text-info small">*shared between all daily consumers</em>
+</p>

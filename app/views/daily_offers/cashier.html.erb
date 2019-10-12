@@ -1,43 +1,33 @@
-<div class="container">
-  <% if @daily_offer.closed? %>
-    <p class="text-danger">Daily offer is closed! For any changes, please contact Goran directly.</p>
-  <% end %>
-  <h4>Daily offer for <%= week_day(@daily_offer.day) %> (<%= formatted_date(@daily_offer.day) %>)</h4>
-  <p><b>Specialty of the house:</b> <%=@daily_offer.name  %></p>
-  <p><b>Price:</b> <%=@daily_offer.price %> RSD</p>
-  <p>
-    <b>Shipping:</b> <%=@daily_offer.shipping %> RSD<br>
-    *<em>shared between all daily consumers</em>
-  </p>
+<%= link_to "<- Back", daily_offer_path(@daily_offer), class: "float-right" %>
+<%= render "info", daily_offer: @daily_offer %>
 
-  <h4>Orders</h4>
-  <p>Shipping price per person: <i class="text-info"><%= @daily_offer.shipping_price_per_person %></i></p>
-  <table class="table table-sm">
-    <thead>
+<h4>Orders</h4>
+<p>Shipping price per person: <i class="text-info"><%= @daily_offer.shipping_price_per_person %></i></p>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Consumer name</th>
+      <th scope="col" class="text-center">Number of portions</th>
+      <th scope="col">Meal price</th>
+      <th scope="col">Meal paid</th>
+      <th scope="col">Shipping paid</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @daily_offer.orders.each_with_index do |order, i| %>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Consumer name</th>
-        <th scope="col" class="text-center">Number of portions</th>
-        <th scope="col">Meal price</th>
-        <th scope="col">Meal paid</th>
-        <th scope="col">Shipping paid</th>
-        <th scope="col">Actions</th>
+        <%= form_with(model: order, local: true, class: "form-inline") do |f| %>
+          <th scope="row"><%= i + 1 %></th>
+          <td><%= order.consumer.name %></td>
+          <td class="text-center"><%= order.number_of_meals %></td>
+          <td><%= order.total_meal_price %></td>
+          <td><%= f.check_box :meal_paid %></td>
+          <td><%= f.check_box :shipping_paid %></td>
+          <td><%= f.submit class: "btn btn-primary btn-sm mb-2" %></td>
+        <% end %>
       </tr>
-    </thead>
-    <tbody>
-      <% @daily_offer.orders.each_with_index do |order, i| %>
-        <tr>
-          <%= form_with(model: order, local: true, class: "form-inline") do |f| %>
-            <th scope="row"><%= i + 1 %></th>
-            <td><%= order.consumer.name %></td>
-            <td class="text-center"><%= order.number_of_meals %></td>
-            <td><%= order.total_meal_price %></td>
-            <td><%= f.check_box :meal_paid %></td>
-            <td><%= f.check_box :shipping_paid %></td>
-            <td><%= f.submit class: "btn btn-primary btn-sm mb-2" %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <% end %>
+  </tbody>
+</table>

@@ -1,25 +1,23 @@
-<div class="container-fluid">
-  <h4>Daily Offers</h4>
-  <table class="table table-sm">
-    <thead>
+<h4>Daily Offers</h4>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Day</th>
+      <th scope="col" class="text-center">Meal price</th>
+      <th scope="col" class="text-center">Shipping price</th>
+      <th scope="col">Description</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @daily_offers.each do |offer| %>
       <tr>
-        <th scope="col">Day</th>
-        <th scope="col" class="text-center">Meal price</th>
-        <th scope="col" class="text-center">Shipping price</th>
-        <th scope="col">Description</th>
-        <th scope="col">Actions</th>
+        <td><%= "#{formatted_date(offer.day)} - #{week_day(offer.day)}" %></td>
+        <td class="text-center"><%= offer.price %></td>
+        <td class="text-center"><%= offer.shipping %></td>
+        <td><%= offer.name %></td>
+        <td><%= link_to "View offer ->", daily_offer_path(offer) %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @daily_offers.each do |offer| %>
-        <tr>
-          <td><%= "#{formatted_date(offer.day)} - #{week_day(offer.day)}" %></td>
-          <td class="text-center"><%= offer.price %></td>
-          <td class="text-center"><%= offer.shipping %></td>
-          <td><%= offer.name %></td>
-          <td><%= link_to "View offer ->", daily_offer_path(offer) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <% end %>
+  </tbody>
+</table>
