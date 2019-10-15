@@ -24,4 +24,24 @@ module ApplicationHelper
   def current_monday
     Date.today.beginning_of_week
   end
+
+  def current_tuesday
+    current_monday + 1.day
+  end
+
+  def current_wednesday
+    current_monday + 2.days
+  end
+
+  def current_thursday
+    current_monday + 3.days
+  end
+
+  def weekly_days
+    [current_monday, current_tuesday, current_wednesday, current_thursday]
+  end
+
+  def active_class(controller)
+    'active' if params["controller"] == controller
+  end
 end

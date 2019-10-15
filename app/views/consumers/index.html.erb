@@ -22,23 +22,26 @@
           <th scope="col" class="text-center">Tuesday</th>
           <th scope="col" class="text-center">Wednesday</th>
           <th scope="col" class="text-center">Thursday</th>
+          <th scope="col" class="text-center">Total shipping <small>*per consumer</small></th>
         </tr>
       </thead>
       <tbody>
         <tr class="text-info">
           <td>Shipping per person</td>
           <td class="text-center"><%= DailyOffer.for_day(current_monday)&.first&.shipping_price_per_person %></td>
-          <td class="text-center"><%= DailyOffer.for_day(current_monday + 1.day)&.first&.shipping_price_per_person %></td>
-          <td class="text-center"><%= DailyOffer.for_day(current_monday + 2.days)&.first&.shipping_price_per_person %></td>
-          <td class="text-center"><%= DailyOffer.for_day(current_monday + 3.days)&.first&.shipping_price_per_person %></td>
+          <td class="text-center"><%= DailyOffer.for_day(current_tuesday)&.first&.shipping_price_per_person %></td>
+          <td class="text-center"><%= DailyOffer.for_day(current_wednesday)&.first&.shipping_price_per_person %></td>
+          <td class="text-center"><%= DailyOffer.for_day(current_thursday)&.first&.shipping_price_per_person %></td>
+          <td></td>
         </tr>
         <% @consumers.each do |consumer| %>
           <tr>
             <td><%= consumer.name %></td>
-            <td class="text-center"><%= consumer.daily_bill(current_monday) %></td>
-            <td class="text-center"><%= consumer.daily_bill(current_monday + 1.day) %></td>
-            <td class="text-center"><%= consumer.daily_bill(current_monday + 2.days) %></td>
-            <td class="text-center"><%= consumer.daily_bill(current_monday + 3.days) %></td>
+            <td class="text-center <%= 'text-success' if consumer.paid_bill(current_monday) %>"><%= consumer.daily_bill(current_monday) %></td>
+            <td class="text-center <%= 'text-success' if consumer.paid_bill(current_tuesday) %>"><%= consumer.daily_bill(current_tuesday) %></td>
+            <td class="text-center <%= 'text-success' if consumer.paid_bill(current_wednesday) %>"><%= consumer.daily_bill(current_wednesday) %></td>
+            <td class="text-center <%= 'text-success' if consumer.paid_bill(current_thursday) %>"><%= consumer.daily_bill(current_thursday) %></td>
+            <td class="text-center <%= 'text-success' if consumer.paid_weekly_shipping(days: weekly_days) %>"><%= consumer.weekly_shipping(days: weekly_days) %></td>
           </tr>
         <% end %>
       </tbody>

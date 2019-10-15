@@ -12,6 +12,6 @@ class DailyOffer < ApplicationRecord
   def shipping_price_per_person
     return 0 if orders.empty?
 
-    shipping / orders.pluck(:consumer_id).uniq.count
+    (shipping / orders.pluck(:consumer_id).uniq.count).round(2)
   end
 end

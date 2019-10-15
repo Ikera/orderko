@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
   def index
     @daily_offer = DailyOffer.new(default_daily_offer_params)
-    @last_daily_offer = DailyOffer.last
+    @last_daily_offer = DailyOffer.order(day: :desc).first
   end
 
   private

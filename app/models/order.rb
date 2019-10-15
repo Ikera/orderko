@@ -3,6 +3,7 @@ class Order < ApplicationRecord
   belongs_to :consumer
 
   scope :for_day, -> (day) { includes(:daily_offer).where("daily_offers.day = (?)", day).references(:daily_offer) }
+  scope :for_days, -> (days) { includes(:daily_offer).where("daily_offers.day IN (?)", days).references(:daily_offer) }
 
   def total_meal_price
   	daily_offer.price * number_of_meals
