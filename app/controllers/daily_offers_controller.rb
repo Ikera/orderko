@@ -1,8 +1,9 @@
 class DailyOffersController < ApplicationController
   before_action :find_daily_offer, only: [:show, :open, :close, :cashier]
+  before_action :find_previous_and_next_daily_offers, only: [:show, :cashier]
 
   def index
-    @daily_offers = DailyOffer.order(day: :desc).last(25)
+    @daily_offers = DailyOffer.order(day: :desc)
   end
 
   def show
@@ -34,14 +35,17 @@ class DailyOffersController < ApplicationController
   end
 
   def cashier
-    @previous_daily_offer = DailyOffer.find_by_day(@daily_offer.day - 1.day)
-    @next_daily_offer = DailyOffer.find_by_day(@daily_offer.day + 1.day)
   end
 
   private
 
   def find_daily_offer
     @daily_offer = DailyOffer.find(params[:id])
+  end
+
+  def find_previous_and_next_daily_offers
+    @previous_daily_offer = DailyOffer.find_by_day(@daily_offer.day - 1.day)
+    @next_daily_offer = DailyOffer.find_by_day(@daily_offer.day + 1.day)
   end
 
   def daily_offer_params

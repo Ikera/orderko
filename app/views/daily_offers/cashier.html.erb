@@ -1,4 +1,4 @@
-<%= link_to "<- Back to consumer view", daily_offer_path(@daily_offer), class: "float-right" %>
+<%= link_to "<- Back to consumer view", daily_offer_path(@daily_offer), class: "float-right lead" %>
 <%= render "info", daily_offer: @daily_offer %>
 
 <h4>Orders</h4>
@@ -32,6 +32,6 @@
   </tbody>
 </table>
 
-<p class="text-center">
-  <%= link_to "<- Previous day", cashier_daily_offer_path(@previous_daily_offer) if @previous_daily_offer%> | <%= link_to "Next day ->", cashier_daily_offer_path(@next_daily_offer) if @next_daily_offer %>
+<p class="text-center text-uppercase">
+  <%= link_to "<- Previous day", cashier_daily_offer_path(@previous_daily_offer), data: { turbolinks: "false" } if @previous_daily_offer %> <%= link_to "| Next day ->", cashier_daily_offer_path(@next_daily_offer), data: { turbolinks: "false" } if @next_daily_offer %>
 </p>

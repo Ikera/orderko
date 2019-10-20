@@ -8,10 +8,11 @@ class DailyOffer < ApplicationRecord
   has_many :orders
 
   scope :for_day, ->(day) { where(day: day) }
+  scope :for_days, -> (days) { where(day: days) }
 
   def shipping_price_per_person
     return 0 if orders.empty?
 
-    (shipping / orders.pluck(:consumer_id).uniq.count).round(2)
+    (shipping / orders.pluck(:consumer_id).uniq.count)&.ceil
   end
 end

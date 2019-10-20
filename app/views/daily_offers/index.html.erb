@@ -11,6 +11,15 @@
   </thead>
   <tbody>
     <% @daily_offers.each do |offer| %>
+      <% if offer.day.thursday? %>
+        <tr class="text-info">
+          <td></td>
+          <td></td>
+          <td>Week: <%= week(offer.day) %></td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% end %>
       <tr>
         <td><%= "#{formatted_date(offer.day)} - #{week_day(offer.day)}" %></td>
         <td class="text-center"><%= offer.price %></td>
