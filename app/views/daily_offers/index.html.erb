@@ -12,10 +12,10 @@
   <tbody>
     <% @daily_offers.each do |offer| %>
       <% if offer.day.thursday? %>
-        <tr class="text-info">
-          <td></td>
-          <td></td>
+        <tr class="text-info lead">
           <td>Week: <%= week(offer.day) %></td>
+          <td></td>
+          <td></td>
           <td></td>
           <td></td>
         </tr>
