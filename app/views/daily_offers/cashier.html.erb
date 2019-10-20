@@ -20,7 +20,7 @@
       <tr>
         <%= form_with(model: order, local: true, class: "form-inline") do |f| %>
           <th scope="row"><%= i + 1 %></th>
-          <td><%= order.consumer.name %></td>
+          <td><%= link_to order.consumer.name, consumer_path(id: order.consumer.name.downcase) %></td>
           <td class="text-center"><%= order.number_of_meals %></td>
           <td><%= order.total_meal_price %></td>
           <td><%= f.check_box :meal_paid %></td>

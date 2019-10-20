@@ -30,7 +30,7 @@
       </thead>
       <tbody>
         <tr class="text-info">
-          <td>*Shipping per person</td>
+          <td>Daily shipping (<em>per person</em>)</td>
           <td class="text-center"><%= shipping(monday(params[:week])) %></td>
           <td class="text-center"><%= shipping(tuesday(params[:week])) %></td>
           <td class="text-center"><%= shipping(wednesday(params[:week])) %></td>
@@ -42,7 +42,7 @@
         </tr>
         <% @consumers.each do |consumer| %>
           <tr>
-            <td><%= consumer.name %></td>
+            <td title="Consumer has <%= consumer.cash %> RSD in reserve."><%= consumer.name %> <%= "(*#{consumer.cash} RSD)" if consumer.cash.positive? %></td>
             <td class="text-center <%= 'text-success' if consumer.paid_bill?(monday(params[:week])) %>"><%= daily_bill(consumer, monday(params[:week])) %></td>
             <td class="text-center <%= 'text-success' if consumer.paid_bill?(tuesday(params[:week])) %>"><%= daily_bill(consumer, tuesday(params[:week])) %></td>
             <td class="text-center <%= 'text-success' if consumer.paid_bill?(wednesday(params[:week])) %>"><%= daily_bill(consumer, wednesday(params[:week])) %></td>

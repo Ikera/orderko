@@ -49,4 +49,34 @@ class Consumer < ApplicationRecord
     weekly_orders.where(meal_paid: false).map { |order| order.total_meal_price }.sum&.ceil +
     weekly_orders.where(shipping_paid: false).map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
   end
+
+  def unpaid_meals
+    orders.where(meal_paid: false).map { |order| order.total_meal_price }.sum&.ceil
+  end
+
+  def unpaid_shipping
+    orders.where(shipping_paid: false).map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
+  end
+
+  def pay_all_bills
+    orders.includes(:daily_offer).where(meal_paid: false).each do |order|
+      total_meal_price = order.total_meal_price
+
+      next unless cash >= total_meal_price
+
+      order.update(meal_paid: true)
+      new_amount = cash - total_meal_price
+      self.update(cash: new_amount)
+    end
+
+    orders.includes(:daily_offer).where(shipping_paid: false).each do |order|
+      shipping = order.daily_offer.shipping_price_per_person
+
+      next unless cash >= shipping
+
+      order.update(shipping_paid: true)
+      new_amount = cash - shipping
+      self.update(cash: new_amount)
+    end
+  end
 end

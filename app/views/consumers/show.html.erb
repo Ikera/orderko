@@ -1,0 +1,22 @@
+<h4><%= @consumer.name %></h4>
+
+<div>
+	<div class="row">
+		<div class="col">
+			<%= form_with(model: @consumer, local: true, class: "form-inline") do |f| %>
+		    <%= f.label :cash, "Cash:", class: "mr-sm-2" %><br>
+		    <%= f.number_field :cash, required: true, min: 0, class: "form-control form-control-sm mb-2 mr-sm-2" %> RSD
+		    <%= f.submit "Update cash", class: "btn btn-primary btn-sm mb-2 ml-sm-2" %>
+		  <% end %>
+	  	<p>
+	  		<strong>Available cash: </strong> <%= @consumer.cash %> RSD <br>
+	  		<strong>Unpaid meals: </strong> <%= @consumer.unpaid_meals %> RSD <br>
+	  		<strong>Unpaid shippings: </strong> <%= @consumer.unpaid_shipping %> RSD
+
+	  	</p>
+	  	<%= form_with(url: pay_bills_consumer_path(@consumer), method: "post", class: "form-inline") do %>
+			  <%= submit_tag("Pay bills", class: "btn btn-success btn-sm mb-2") %>
+			<% end %>
+	  </div>
+	</div>
+</div>

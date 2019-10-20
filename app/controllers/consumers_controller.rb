@@ -21,9 +21,29 @@ class ConsumersController < ApplicationController
     end
   end
 
+  def show
+    @consumer = Consumer.where('lower(name) = ?', params[:id].downcase).first
+  end
+
+  def update
+    @consumer = Consumer.find(params[:id])
+    if @consumer.update(consumer_params)
+      redirect_to consumer_path(id: @consumer.name.downcase), notice: 'Consumer was successfully updated.'
+    else
+      redirect_to consumer_path(id: @consumer.name.downcase), alert: "#{@consumer.errors.full_messages.join(',')}"
+    end
+  end
+
+  def pay_bills
+    @consumer = Consumer.find(params[:id])
+    cash = @consumer.cash
+    @consumer.pay_all_bills
+    redirect_to consumer_path(id: @consumer.name.downcase), notice: "Bills successfully payed. #{@consumer.cash} cash left."
+  end
+
   private
 
   def consumer_params
-    params.require(:consumer).permit(:name)
+    params.require(:consumer).permit(:name, :cash)
   end
 end
