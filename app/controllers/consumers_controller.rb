@@ -23,6 +23,7 @@ class ConsumersController < ApplicationController
 
   def show
     @consumer = Consumer.where('lower(name) = ?', params[:id].downcase).first
+    redirect_to consumers_path, alert: "Not allowed" if @consumer.nil?
   end
 
   def update

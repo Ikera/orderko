@@ -40,26 +40,26 @@ class Consumer < ApplicationRecord
 
   def paid_weekly_bills(days: [])
     weekly_orders = orders.for_days(days)
-    weekly_orders.where(meal_paid: true).map { |order| order.total_meal_price }.sum&.ceil +
-    weekly_orders.where(shipping_paid: true).map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
+    weekly_orders.meal_paid.map { |order| order.total_meal_price }.sum&.ceil +
+    weekly_orders.shipping_paid.map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
   end
 
   def unpaid_weekly_bills(days: [])
     weekly_orders = orders.for_days(days)
-    weekly_orders.where(meal_paid: false).map { |order| order.total_meal_price }.sum&.ceil +
-    weekly_orders.where(shipping_paid: false).map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
+    weekly_orders.meal_unpaid.map { |order| order.total_meal_price }.sum&.ceil +
+    weekly_orders.shipping_unpaid.map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
   end
 
   def unpaid_meals
-    orders.where(meal_paid: false).map { |order| order.total_meal_price }.sum&.ceil
+    orders.meal_unpaid.map { |order| order.total_meal_price }.sum&.ceil
   end
 
   def unpaid_shipping
-    orders.where(shipping_paid: false).map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
+    orders.shipping_unpaid.map { |o| o.daily_offer }.uniq.map(&:shipping_price_per_person).sum&.ceil
   end
 
   def pay_all_bills
-    orders.includes(:daily_offer).where(meal_paid: false).each do |order|
+    orders.includes(:daily_offer).meal_unpaid.each do |order|
       total_meal_price = order.total_meal_price
 
       next unless cash >= total_meal_price
@@ -69,7 +69,7 @@ class Consumer < ApplicationRecord
       self.update(cash: new_amount)
     end
 
-    orders.includes(:daily_offer).where(shipping_paid: false).each do |order|
+    orders.includes(:daily_offer).shipping_unpaid.each do |order|
       shipping = order.daily_offer.shipping_price_per_person
 
       next unless cash >= shipping

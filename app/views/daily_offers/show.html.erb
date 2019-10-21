@@ -3,7 +3,7 @@
 <% if !@daily_offer.closed? %>
   <%= form_with(model: Order.new, local: true, class: "form-inline") do |f| %>
     <%= f.label :consumer_id, "Consumer:", class: "mr-sm-2" %>
-    <%= f.select :consumer_id, Consumer.pluck(:name, :id).sort, { prompt: "Select consumer", include_blank: true, required: true }, { class: "form-control form-control-sm mb-2 mr-sm-2" } %>
+    <%= f.select :consumer_id, Consumer.pluck(:name, :id).sort, { prompt: "Select consumer", required: true }, { class: "form-control form-control-sm mb-2 mr-sm-2" } %>
     <%= f.label :number_of_meals, "Number of portions:", class: "mr-sm-2" %>
     <%= f.number_field :number_of_meals, required: true, in: 1..20, step: 1, value: 1, class: "form-control form-control-sm mb-2 mr-sm-2" %>
     <%= f.hidden_field :daily_offer_id, value: @daily_offer.id %>

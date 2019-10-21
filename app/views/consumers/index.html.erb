@@ -53,6 +53,17 @@
             <td class="text-center text-danger"><%= unpaid_weekly_bills(consumer, weekly_days(params[:week])) %></td>
           </tr>
         <% end %>
+        <tr class="text-center lead font-weight-bold">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><%= DailyOffer.total(weekly_days(params[:week])) %></td>
+          <td><%= DailyOffer.paid(weekly_days(params[:week])) %></td>
+          <td><%= DailyOffer.unpaid(weekly_days(params[:week])) %></td>
+        </tr>
       </tbody>
     </table>
 
