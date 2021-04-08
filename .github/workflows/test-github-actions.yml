@@ -29,11 +29,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6.1 # Not needed with a .ruby-version file
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: bundle exec rspec
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rspec
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
