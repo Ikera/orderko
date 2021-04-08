@@ -29,13 +29,22 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6.1 # Not needed with a .ruby-version file
+      
+      - name: Cache Ruby Gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          
+      - name: Bundle Install
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
           
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: |
-          gem install bundler
-          bundle exec bundle install --jobs 4 --retry 3
-          bundle exec rspec
+        run: bundle exec rspec
+          
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
