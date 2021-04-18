@@ -1,0 +1,36 @@
+name: Share data between jobs
+
+on: [push]
+
+jobs:
+  upload-data-job:
+    name: Upload data to artifact
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          echo Hello World! > hello-world.txt
+      - name: Upload hello world file
+        uses: actions/upload-artifact@v1
+        with:
+          name: hello-world
+          path: hello-world.txt
+
+  download-data-job:
+    name: Download data from artifact
+    needs: upload-data-job
+    runs-on: windows-latest
+    steps:
+      - name: Download hello world file
+        uses: actions/download-artifact@v1
+        with:
+          name: hello-world
+      - shell: bash
+        run: |
+          value=`cat hello-world/hello-world.txt`
+          echo $value > hello-world/hello-world.txt
+      - name: Upload hello world to artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: hello-world
+          path: hello-world.txt
